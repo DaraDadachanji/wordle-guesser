@@ -15,10 +15,10 @@ func main() {
 	if flags.Guess != "" {
 		score := ScoreGuess(flags.Guess, &game.AllAnswers)
 		fmt.Printf("%s: %d\n", flags.Guess, score)
-	} else if flags.DoRoughGuesses {
+	} else if flags.Rough {
 		CalculateAlphabetValues()
 		CalculateRoughGuessValues()
-	} else if flags.DoBestGuesses {
+	} else if flags.Detailed {
 		CalculateBestGuesses(flags.Start, flags.End)
 	} else {
 		HelpGuess()
@@ -27,30 +27,33 @@ func main() {
 }
 
 type Flags struct {
-	Guess          string
-	DoBestGuesses  bool
-	DoRoughGuesses bool
-	Start          int
-	End            int
+	Guess    string
+	Detailed bool
+	Rough    bool
+	Start    int
+	End      int
 }
 
 func getFlags() Flags {
 	guess := flag.String(
 		"score",
 		"",
-		"a guess to be evaluated",
+		"a single guess to be scored",
 	)
-	doBestGuesses := flag.Bool("best", false, "number of top rough guesses to score")
+	detailed := flag.Bool(
+		"detailed",
+		false,
+		"perform a detailed scoring of guesses from the rough list")
 	start := flag.Int("start", 0, "starting point of for best guesses")
 	end := flag.Int("end", 0, "ending point for best guesses")
-	doRoughGuesses := flag.Bool("rough", false, "calculate alphabet and rough guess scores")
+	rough := flag.Bool("rough", false, "calculate alphabet and rough guess scores")
 	flag.Parse()
 	flags := Flags{
-		Guess:          *guess,
-		DoBestGuesses:  *doBestGuesses,
-		DoRoughGuesses: *doRoughGuesses,
-		Start:          *start,
-		End:            *end,
+		Guess:    *guess,
+		Detailed: *detailed,
+		Rough:    *rough,
+		Start:    *start,
+		End:      *end,
 	}
 	return flags
 }
