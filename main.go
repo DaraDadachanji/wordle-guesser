@@ -17,10 +17,14 @@ func main() {
 		"a guess to be evaluated",
 	)
 	doBestGuesses := flag.Int("best", 0, "number of top rough guesses to score")
+	doRoughGuesses := flag.Bool("rough", false, "calculate alphabet and rough guess scores")
 	flag.Parse()
 	if *guess != "" {
 		score := ScoreGuess(*guess, &game.AllAnswers)
 		fmt.Printf("%s: %d\n", *guess, score)
+	} else if *doRoughGuesses {
+		CalculateAlphabetValues()
+		CalculateRoughGuessValues()
 	} else if *doBestGuesses > 0 {
 		CalculateBestGuesses(*doBestGuesses)
 	} else {
