@@ -19,7 +19,7 @@ func GetRoughGuesses(start int, end int) *[]string {
 	for _, guess := range guessValues {
 		guesses = append(guesses, guess.Key)
 	}
-	if start > 0 {
+	if start >= 0 {
 		shortlist := guesses[start:end]
 		return &shortlist
 	} else {
