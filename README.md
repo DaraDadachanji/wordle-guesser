@@ -14,11 +14,11 @@ The hint pattern is a 5 letter string of the 3 states:
 
 ### Compile the program
 
-install Go and run ```go build``` in the src folder
+[install Go](https://go.dev/) and run ```go build``` in the src folder
 
 ### Calculate first guess (optional)
 
-You can optionally re-calculate the best first guess if you want. This may be desirable if you want to make modifications to ```answers.txt``` (i.e. excluding past answers).
+You can re-calculate the best first guess if you want. This may be desirable if you want to make modifications to ```answers.txt``` (i.e. excluding past answers).
 Run the program first with the ```-rough``` flag, this will produce 2 JSON files, one with letter values and one with sorted guess values  
 Next, run the program with the ```-best``` flag and pass a number in. This will take the top N guesses produced by the rough program and perform a detailed scoring on them.  
 Note that this step can take a long time. Running it on the entire list of guesses can take many hours.  
