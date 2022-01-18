@@ -1,3 +1,4 @@
 *.json
 wordle
+wordle.exe
 .DS_Store
