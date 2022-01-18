@@ -2,6 +2,7 @@ package main
 
 import (
 	"testing"
+	"wordle/game"
 )
 
 func TestScoring(t *testing.T) {
@@ -20,6 +21,24 @@ func TestGuava(t *testing.T) {
 	answers := []string{"again", "guava"}
 	score := ScoreGuess("guava", &answers)
 	if score != 2 {
+		t.Error()
+	}
+}
+
+func TestDonor(t *testing.T) {
+	hint := buildHint("roate", "ppaaa")
+	answer := "donor"
+	valid := game.Validate(hint, answer)
+	if valid {
+		t.Error()
+	}
+}
+
+func TestGroup(t *testing.T) {
+	hint := buildHint("prior", "ccapa")
+	answer := "group"
+	valid := game.Validate(hint, answer)
+	if valid {
 		t.Error()
 	}
 }

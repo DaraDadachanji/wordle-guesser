@@ -67,8 +67,8 @@ func Validate(hint Hint, answer string) bool {
 	copy(_hint, hint) //mutable copy to work with
 	_answer := build_word(answer)
 	for i, part := range _hint {
-		if part.State == Correct {
-			if part.Char != _answer[i].Char {
+		if part.Char == _answer[i].Char {
+			if part.State != Correct {
 				return false
 			}
 			_hint[i].AccountedFor = true
