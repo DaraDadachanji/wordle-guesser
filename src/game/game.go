@@ -66,15 +66,22 @@ func Validate(hint Hint, answer string) bool {
 	_hint := make(Hint, len(hint))
 	copy(_hint, hint) //mutable copy to work with
 	_answer := build_word(answer)
+
+	//check Correct
 	for i, part := range _hint {
-		if part.Char == _answer[i].Char {
-			if part.State != Correct {
-				return false
-			}
+		matches := part.Char == _answer[i].Char
+		shouldMatch := part.State == Correct
+		if matches && shouldMatch {
 			_hint[i].AccountedFor = true
 			_answer[i].AccountedFor = true
+		} else if matches != shouldMatch {
+			return false
+		} else if !matches && !shouldMatch {
+			continue
 		}
 	}
+
+	//check Present and Absent
 	for i, part := range _hint {
 		if !part.AccountedFor {
 			if _answer.IsPresent(part.Char) {
