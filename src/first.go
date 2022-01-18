@@ -2,14 +2,19 @@ package main
 
 import (
 	"encoding/json"
+	"fmt"
 	"os"
 	"wordle/game"
 )
 
-func CalculateBestGuesses(number int) {
+func CalculateBestGuesses(start int, end int) {
+	if start > end {
+		panic("start must be < end")
+	}
 	game.Initialize()
-	guesses := GetTopRoughGuesses(number)
+	guesses := GetRoughGuesses(start, end)
 	scores := RankGuesses(guesses, &game.AllAnswers)
 	output, _ := json.Marshal(scores)
-	os.WriteFile("best_guesses.json", output, 0644)
+	filename := fmt.Sprintf("best_guesses_%d-%d.json", start, end)
+	os.WriteFile(filename, output, 0644)
 }

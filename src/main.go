@@ -11,26 +11,48 @@ const firstGuess = "roate"
 
 func main() {
 	game.Initialize()
+	flags := getFlags()
+	if flags.Guess != "" {
+		score := ScoreGuess(flags.Guess, &game.AllAnswers)
+		fmt.Printf("%s: %d\n", flags.Guess, score)
+	} else if flags.DoRoughGuesses {
+		CalculateAlphabetValues()
+		CalculateRoughGuessValues()
+	} else if flags.DoBestGuesses {
+		CalculateBestGuesses(flags.Start, flags.End)
+	} else {
+		HelpGuess()
+	}
+
+}
+
+type Flags struct {
+	Guess          string
+	DoBestGuesses  bool
+	DoRoughGuesses bool
+	Start          int
+	End            int
+}
+
+func getFlags() Flags {
 	guess := flag.String(
 		"score",
 		"",
 		"a guess to be evaluated",
 	)
-	doBestGuesses := flag.Int("best", 0, "number of top rough guesses to score")
+	doBestGuesses := flag.Bool("best", false, "number of top rough guesses to score")
+	start := flag.Int("start", 0, "starting point of for best guesses")
+	end := flag.Int("end", 0, "ending point for best guesses")
 	doRoughGuesses := flag.Bool("rough", false, "calculate alphabet and rough guess scores")
 	flag.Parse()
-	if *guess != "" {
-		score := ScoreGuess(*guess, &game.AllAnswers)
-		fmt.Printf("%s: %d\n", *guess, score)
-	} else if *doRoughGuesses {
-		CalculateAlphabetValues()
-		CalculateRoughGuessValues()
-	} else if *doBestGuesses > 0 {
-		CalculateBestGuesses(*doBestGuesses)
-	} else {
-		HelpGuess()
+	flags := Flags{
+		Guess:          *guess,
+		DoBestGuesses:  *doBestGuesses,
+		DoRoughGuesses: *doRoughGuesses,
+		Start:          *start,
+		End:            *end,
 	}
-
+	return flags
 }
 
 func HelpGuess() {

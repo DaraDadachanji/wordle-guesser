@@ -10,7 +10,7 @@ import (
 	"wordle/game"
 )
 
-func GetTopRoughGuesses(number int) *[]string {
+func GetRoughGuesses(start int, end int) *[]string {
 	var guessValues PairList
 	jsonFile, _ := os.Open("top_guesses.json")
 	byteValue, _ := ioutil.ReadAll(jsonFile)
@@ -19,8 +19,8 @@ func GetTopRoughGuesses(number int) *[]string {
 	for _, guess := range guessValues {
 		guesses = append(guesses, guess.Key)
 	}
-	if number > 0 {
-		shortlist := guesses[0:number]
+	if start > 0 {
+		shortlist := guesses[start:end]
 		return &shortlist
 	} else {
 		return &guesses
