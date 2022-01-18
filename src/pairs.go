@@ -18,13 +18,17 @@ func (pair PairList) Len() int           { return len(pair) }
 func (pair PairList) Less(i, j int) bool { return pair[i].Value < pair[j].Value }
 
 // A function to turn a map into a PairList, then sort and return it.
-func sortMapByValue(_map map[string]int) PairList {
+func sortMapByValue(_map map[string]int, ascending bool) PairList {
 	list := make(PairList, len(_map))
 	i := 0
 	for key, value := range _map {
 		list[i] = Pair{Key: key, Value: value}
 		i++
 	}
-	sort.Sort(list)
+	if ascending {
+		sort.Sort(list)
+	} else {
+		sort.Sort(sort.Reverse(list))
+	}
 	return list
 }

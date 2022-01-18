@@ -46,7 +46,7 @@ func CalculateRoughGuessValues() {
 		}
 		guessValues[guess] = value
 	}
-	topGuesses := sortMapByValue(guessValues)
+	topGuesses := sortMapByValue(guessValues, false)
 	output, _ := json.Marshal(topGuesses)
 	os.WriteFile("top_guesses.json", output, 0644)
 }
