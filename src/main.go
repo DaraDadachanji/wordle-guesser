@@ -87,8 +87,15 @@ func HelpGuess() {
 
 func getUserInput(prompt string) string {
 	var userInput string
-	fmt.Print(prompt)
-	fmt.Scanln(&userInput)
+	for {
+		fmt.Print(prompt)
+		fmt.Scanln(&userInput)
+		if len(userInput) == 5 {
+			break
+		} else {
+			fmt.Printf("\nmust be exactly 5 letters\n")
+		}
+	}
 	return userInput
 }
 
