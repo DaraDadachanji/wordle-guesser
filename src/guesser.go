@@ -27,6 +27,7 @@ func (guesser Guesser) SuggestGuess() PairList {
 			bestGuesses = append(bestGuesses, guess)
 		}
 	}
+	return allGuesses //all guesses are tied
 }
 
 func narrowList(list *[]string, hint game.Hint) *[]string {
