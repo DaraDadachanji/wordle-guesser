@@ -59,7 +59,7 @@ func getFlags() Flags {
 }
 
 func HelpGuess() {
-	guesser := Guesser{Answers: &game.AllAnswers}
+	guesser := Guesser{Answers: &game.AllAnswers, Guesses: &game.AllGuesses}
 	fmt.Printf("Suggested first guess: %s\n", firstGuess)
 	for {
 		guess := getUserInput("Guess: ")
@@ -69,13 +69,14 @@ func HelpGuess() {
 			return
 		} else {
 			guesser.GiveHint(guess, pattern)
-			fmt.Printf("Narrowed to %d answers\n", len(*guesser.Answers))
+
 			for _, answer := range *guesser.Answers {
 				fmt.Println(answer)
 			}
+			fmt.Printf("Narrowed to %d answers\n", len(*guesser.Answers))
 			bestGuess := guesser.SuggestGuess()
 			averageOptions := bestGuess.Value / len(*guesser.Answers)
-			fmt.Printf("%s: %d (%d)\n", bestGuess.Key, bestGuess.Value, averageOptions)
+			fmt.Printf("Suggested Guess: %s: aggregate score %d, (average remaining answers: %d)\n", bestGuess.Key, bestGuess.Value, averageOptions)
 		}
 	}
 }
