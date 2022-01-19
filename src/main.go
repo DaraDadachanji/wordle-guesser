@@ -64,11 +64,16 @@ func HelpGuess() {
 	for {
 		guess := getUserInput("Guess: ")
 		pattern := getUserInput("Pattern: ")
-		guesser.GiveHint(guess, pattern)
-		fmt.Printf("Narrowed to %d answers\n", len(*guesser.Answers))
-		options := guesser.SuggestGuess()
-		for _, option := range *options {
-			fmt.Printf("%s: %d\n", option.Key, option.Value)
+		if pattern == "ccccc" {
+			fmt.Println("Congratulations!")
+			return
+		} else {
+			guesser.GiveHint(guess, pattern)
+			fmt.Printf("Narrowed to %d answers\n", len(*guesser.Answers))
+			options := guesser.SuggestGuess()
+			for _, option := range *options {
+				fmt.Printf("%s: %d\n", option.Key, option.Value)
+			}
 		}
 	}
 }
