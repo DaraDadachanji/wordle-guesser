@@ -15,6 +15,6 @@ func CalculateBestGuesses(start int, end int) {
 	guesses := GetRoughGuesses(start, end)
 	scores := RankGuesses(guesses, &game.AllAnswers)
 	output, _ := json.Marshal(scores)
-	filename := fmt.Sprintf("best_guesses_%d-%d.json", start, end)
+	filename := fmt.Sprintf("best_absurdle_guesses_%d-%d.json", start, end)
 	os.WriteFile(filename, output, 0644)
 }

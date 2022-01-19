@@ -123,13 +123,17 @@ func ScoreGuess(guess string, answers *[]string) int {
 		hint := game.Check(guess, answer)
 		hints = append(hints, hint)
 	}
-	score := 0
+	maxScore := 0
 	for _, hint := range hints {
+		score := 0
 		for _, answer := range *answers {
 			if game.Validate(hint, answer) {
 				score++
 			}
 		}
+		if score > maxScore {
+			maxScore = score
+		}
 	}
-	return score
+	return maxScore
 }
