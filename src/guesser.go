@@ -16,9 +16,17 @@ func (guesser *Guesser) GiveHint(guess string, pattern string) {
 	guesser.Guesses = narrowList(guesser.Guesses, hint)
 }
 
-func (guesser Guesser) SuggestGuess() Pair {
-	guesses := RankGuesses(guesser.Guesses, guesser.Answers)
-	return guesses[0]
+func (guesser Guesser) SuggestGuess() PairList {
+	allGuesses := RankGuesses(guesser.Guesses, guesser.Answers)
+	bestScore := allGuesses[0].Value
+	bestGuesses := PairList{}
+	for _, guess := range allGuesses {
+		if guess.Value > bestScore {
+			return bestGuesses
+		} else {
+			bestGuesses = append(bestGuesses, guess)
+		}
+	}
 }
 
 func narrowList(list *[]string, hint game.Hint) *[]string {

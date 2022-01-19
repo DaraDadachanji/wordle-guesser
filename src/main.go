@@ -74,9 +74,12 @@ func HelpGuess() {
 				fmt.Println(answer)
 			}
 			fmt.Printf("Narrowed to %d answers\n", len(*guesser.Answers))
-			bestGuess := guesser.SuggestGuess()
-			averageOptions := bestGuess.Value / len(*guesser.Answers)
-			fmt.Printf("Suggested Guess: %s: aggregate score %d, (average remaining answers: %d)\n", bestGuess.Key, bestGuess.Value, averageOptions)
+			suggestions := guesser.SuggestGuess()
+			for _, suggestion := range suggestions {
+				var averageOptions float64
+				averageOptions = float64(suggestion.Value) / float64(len(*guesser.Answers))
+				fmt.Printf("Suggested Guess: %s: aggregate score %d, (average remaining answers: %d)\n", suggestion.Key, suggestion.Value, averageOptions)
+			}
 		}
 	}
 }
