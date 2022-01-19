@@ -10,7 +10,7 @@ The hint pattern is a 5 letter string of the 3 states:
 * **p:** present (yellow). The letter is in the word, but in a different place
 * **c:** correct (green). The letter is in the word and in the correct location
 
-For example: 
+For example:
 
 ```
 Guess: roate
