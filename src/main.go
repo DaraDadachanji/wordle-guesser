@@ -1,10 +1,10 @@
 package main
 
 import (
+	"absurdle/game"
 	"flag"
 	"fmt"
 	"sort"
-	"wordle/game"
 )
 
 const firstGuess = "roate"

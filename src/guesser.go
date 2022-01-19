@@ -1,8 +1,8 @@
 package main
 
 import (
+	"absurdle/game"
 	"strings"
-	"wordle/game"
 )
 
 type Guesser struct {

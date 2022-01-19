@@ -1,10 +1,10 @@
 package main
 
 import (
+	"absurdle/game"
 	"encoding/json"
 	"fmt"
 	"os"
-	"wordle/game"
 )
 
 func CalculateBestGuesses(start int, end int) {

@@ -1,8 +1,8 @@
 package main
 
 import (
+	"absurdle/game"
 	"testing"
-	"wordle/game"
 )
 
 func TestScoring(t *testing.T) {

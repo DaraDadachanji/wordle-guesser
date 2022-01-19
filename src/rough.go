@@ -7,7 +7,7 @@ import (
 	"os"
 	"strings"
 
-	"wordle/game"
+	"absurdle/game"
 )
 
 func GetRoughGuesses(start int, end int) *[]string {
