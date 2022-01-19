@@ -70,10 +70,12 @@ func HelpGuess() {
 		} else {
 			guesser.GiveHint(guess, pattern)
 			fmt.Printf("Narrowed to %d answers\n", len(*guesser.Answers))
-			options := guesser.SuggestGuess()
-			for _, option := range *options {
-				fmt.Printf("%s: %d\n", option.Key, option.Value)
+			for _, answer := range *guesser.Answers {
+				fmt.Println(answer)
 			}
+			bestGuess := guesser.SuggestGuess()
+			averageOptions := bestGuess.Value / len(*guesser.Answers)
+			fmt.Printf("%s: %d (%d)\n", bestGuess.Key, bestGuess.Value, averageOptions)
 		}
 	}
 }

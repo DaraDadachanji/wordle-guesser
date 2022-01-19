@@ -7,22 +7,28 @@ import (
 
 type Guesser struct {
 	Answers *[]string
+	Guesses *[]string
 }
 
 func (guesser *Guesser) GiveHint(guess string, pattern string) {
-	narrowedAnswers := []string{}
 	hint := buildHint(guess, pattern)
-	for _, answer := range *guesser.Answers {
+	guesser.Answers = narrowList(guesser.Answers, hint)
+	guesser.Guesses = narrowList(guesser.Guesses, hint)
+}
+
+func (guesser Guesser) SuggestGuess() Pair {
+	guesses := RankGuesses(guesser.Guesses, guesser.Answers)
+	return guesses[0]
+}
+
+func narrowList(list *[]string, hint game.Hint) *[]string {
+	narrowedAnswers := []string{}
+	for _, answer := range *list {
 		if game.Validate(hint, answer) {
 			narrowedAnswers = append(narrowedAnswers, answer)
 		}
 	}
-	guesser.Answers = &narrowedAnswers
-}
-
-func (guesser Guesser) SuggestGuess() *PairList {
-	guesses := RankGuesses(guesser.Answers, guesser.Answers)
-	return &guesses
+	return &narrowedAnswers
 }
 
 func buildHint(guess string, pattern string) game.Hint {
