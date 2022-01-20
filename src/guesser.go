@@ -12,14 +12,17 @@ type Guesser struct {
 
 func (guesser *Guesser) GiveHint(guess string, pattern string) {
 	hint := buildHint(guess, pattern)
-	guesser.Answers = narrowList(guesser.Answers, hint)
-	guesser.Guesses = narrowList(guesser.Guesses, hint)
+	guesser.Answers = narrowList(guesser.Answers, hint, false)
+	guesser.Guesses = narrowList(guesser.Guesses, hint, true)
 }
 
-func (guesser Guesser) SuggestGuess() PairList {
+func (guesser Guesser) SuggestGuess(listAll bool) PairList {
 	allGuesses := RankGuesses(guesser.Guesses, guesser.Answers)
 	bestScore := allGuesses[0].Value
 	bestGuesses := PairList{}
+	if listAll {
+		return allGuesses
+	}
 	for _, guess := range allGuesses {
 		if guess.Value > bestScore {
 			return bestGuesses
@@ -30,10 +33,10 @@ func (guesser Guesser) SuggestGuess() PairList {
 	return allGuesses //all guesses are tied
 }
 
-func narrowList(list *[]string, hint game.Hint) *[]string {
+func narrowList(list *[]string, hint game.Hint, ignoreCorrect bool) *[]string {
 	narrowedAnswers := []string{}
 	for _, answer := range *list {
-		if game.Validate(hint, answer) {
+		if game.Validate(hint, answer, ignoreCorrect) {
 			narrowedAnswers = append(narrowedAnswers, answer)
 		}
 	}

@@ -75,7 +75,7 @@ func HelpGuess() {
 			}
 			fmt.Printf("Narrowed to %d answers\n", len(*guesser.Answers))
 			if len(*guesser.Answers) > 2 {
-				suggestions := guesser.SuggestGuess()
+				suggestions := guesser.SuggestGuess(true)
 				for _, suggestion := range suggestions {
 					averageOptions := float64(suggestion.Value) / float64(len(*guesser.Answers))
 					fmt.Printf("Suggested Guess: %s, aggregate score %d, average remaining answers: %.2f\n", suggestion.Key, suggestion.Value, averageOptions)
@@ -126,7 +126,7 @@ func ScoreGuess(guess string, answers *[]string) int {
 	score := 0
 	for _, hint := range hints {
 		for _, answer := range *answers {
-			if game.Validate(hint, answer) {
+			if game.Validate(hint, answer, false) {
 				score++
 			}
 		}

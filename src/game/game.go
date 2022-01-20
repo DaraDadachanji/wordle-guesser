@@ -62,7 +62,7 @@ func Check(guess string, answer string) Hint {
 	return hint
 }
 
-func Validate(hint Hint, answer string) bool {
+func Validate(hint Hint, answer string, ignoreCorrect bool) bool {
 	_hint := make(Hint, len(hint))
 	copy(_hint, hint) //mutable copy to work with
 	_answer := build_word(answer)
@@ -75,7 +75,11 @@ func Validate(hint Hint, answer string) bool {
 			_hint[i].AccountedFor = true
 			_answer[i].AccountedFor = true
 		} else if matches != shouldMatch {
-			return false
+			//Don't filter out guesses where correct letters don't match
+			//guessing them could provide valuable information
+			if !ignoreCorrect {
+				return false
+			}
 		} else if !matches && !shouldMatch {
 			continue
 		}
