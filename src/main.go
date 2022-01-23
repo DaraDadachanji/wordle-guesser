@@ -131,6 +131,9 @@ func ScoreGuess(guess string, answers *[]string) int {
 	}
 	score := 0
 	for _, hint := range hints {
+		if hint.IsExactMatch() {
+			continue
+		}
 		for _, answer := range *answers {
 			if game.Validate(hint, answer, false) {
 				score++

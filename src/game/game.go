@@ -74,6 +74,7 @@ func Validate(hint Hint, answer string, ignoreCorrect bool) bool {
 		if matches && shouldMatch {
 			_hint[i].AccountedFor = true
 			_answer[i].AccountedFor = true
+			continue
 		} else if matches != shouldMatch {
 			//Don't filter out guesses where correct letters don't match
 			//guessing them could provide valuable information
@@ -86,13 +87,12 @@ func Validate(hint Hint, answer string, ignoreCorrect bool) bool {
 	}
 
 	//check Present and Absent
-	for i, part := range _hint {
+	for _, part := range _hint {
 		if !part.AccountedFor {
 			if _answer.IsPresent(part.Char) {
 				if part.State == Absent {
 					return false
 				}
-				_hint[i].AccountedFor = true
 			} else {
 				if part.State == Present {
 					return false
@@ -114,4 +114,13 @@ func build_word(str string) Word {
 		word = append(word, letter)
 	}
 	return word
+}
+
+func (hint Hint) IsExactMatch() bool {
+	for _, piece := range hint {
+		if piece.State != Correct {
+			return false
+		}
+	}
+	return true
 }
