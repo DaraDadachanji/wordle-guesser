@@ -26,44 +26,6 @@ func main() {
 
 }
 
-// start CLI application to suggest guesses
-func RunGuesserCLI(showAllGuesses bool, answersPerLine int) {
-	guesser := Guesser{Answers: &game.AllAnswers, Guesses: &game.AllGuesses}
-	fmt.Printf("Suggested first guess: %s\n", firstGuess)
-	for {
-		guess := getUserInput("Guess: ")
-		pattern := getUserInput("Pattern: ")
-		if pattern == "ccccc" {
-			fmt.Println("Congratulations!")
-			return
-		} else {
-			guesser.GiveHint(guess, pattern)
-
-			for i, answer := range *guesser.Answers {
-				fmt.Printf("%s ", answer)
-				if i%answersPerLine == 0 {
-					fmt.Print("\n")
-				}
-			}
-			fmt.Print("\n")
-			fmt.Printf("Narrowed to %d answers\n", len(*guesser.Answers))
-			if len(*guesser.Answers) > 2 {
-				var suggestions PairList
-				if showAllGuesses {
-					suggestions = guesser.AllGuesses()
-				} else {
-					suggestions = guesser.SuggestGuess()
-				}
-				sort.Sort(sort.Reverse(suggestions))
-				for _, suggestion := range suggestions {
-					averageOptions := float64(suggestion.Value) / float64(len(*guesser.Answers))
-					fmt.Printf("Suggested Guess: %s, aggregate score %d, average remaining answers: %.2f\n", suggestion.Key, suggestion.Value, averageOptions)
-				}
-			}
-		}
-	}
-}
-
 // score and sort a list of guesses based on a list of answers
 func RankGuesses(guesses *[]string, answers *[]string) PairList {
 	scoreChannel := make(chan Pair, 50)
