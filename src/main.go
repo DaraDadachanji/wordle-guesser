@@ -1,7 +1,6 @@
 package main
 
 import (
-	"flag"
 	"fmt"
 	"sort"
 	"wordle/game"
@@ -24,44 +23,6 @@ func main() {
 		HelpGuess(flags.ShowAllGuesses)
 	}
 
-}
-
-type Flags struct {
-	Guess          string
-	Detailed       bool
-	Rough          bool
-	ShowAllGuesses bool
-	Start          int
-	End            int
-}
-
-func getFlags() Flags {
-	guess := flag.String(
-		"score",
-		"",
-		"a single guess to be scored",
-	)
-	detailed := flag.Bool(
-		"detailed",
-		false,
-		"perform a detailed scoring of guesses from the rough list")
-	showAllGuesses := flag.Bool(
-		"allguesses",
-		false,
-		"show all guesses and scores after each hint instead of just the ones tied for best")
-	start := flag.Int("start", 0, "starting point of for best guesses")
-	end := flag.Int("end", 0, "ending point for best guesses")
-	rough := flag.Bool("rough", false, "calculate alphabet and rough guess scores")
-	flag.Parse()
-	flags := Flags{
-		Guess:          *guess,
-		Detailed:       *detailed,
-		Rough:          *rough,
-		Start:          *start,
-		End:            *end,
-		ShowAllGuesses: *showAllGuesses,
-	}
-	return flags
 }
 
 func HelpGuess(showAllGuesses bool) {
@@ -92,20 +53,6 @@ func HelpGuess(showAllGuesses bool) {
 	}
 }
 
-func getUserInput(prompt string) string {
-	var userInput string
-	for {
-		fmt.Print(prompt)
-		fmt.Scanln(&userInput)
-		if len(userInput) == 5 {
-			break
-		} else {
-			fmt.Printf("\nmust be exactly 5 letters\n")
-		}
-	}
-	return userInput
-}
-
 func RankGuesses(guesses *[]string, answers *[]string) PairList {
 	scoreChannel := make(chan Pair, 50)
 	for _, guess := range *guesses {
@@ -127,7 +74,7 @@ func WriteScoreAsync(guess string, answers *[]string, scores chan Pair) {
 func ScoreGuess(guess string, answers *[]string) int {
 	hints := []game.Hint{}
 	for _, answer := range *answers {
-		hint := game.Check(guess, answer)
+		hint := game.GetHint(guess, answer)
 		hints = append(hints, hint)
 	}
 	score := 0
@@ -136,7 +83,7 @@ func ScoreGuess(guess string, answers *[]string) int {
 			continue
 		}
 		for _, answer := range *answers {
-			if game.Validate(hint, answer, false) {
+			if game.AnswerMatchesHint(hint, answer, false) {
 				score++
 			}
 		}

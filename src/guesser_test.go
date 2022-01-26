@@ -28,7 +28,7 @@ func TestGuava(t *testing.T) {
 func TestDonor(t *testing.T) {
 	hint := buildHint("roate", "ppaaa")
 	answer := "donor"
-	valid := game.Validate(hint, answer, false)
+	valid := game.AnswerMatchesHint(hint, answer, false)
 	if valid {
 		t.Error()
 	}
@@ -37,7 +37,7 @@ func TestDonor(t *testing.T) {
 func TestGroup(t *testing.T) {
 	hint := buildHint("prior", "ccapa")
 	answer := "group"
-	valid := game.Validate(hint, answer, false)
+	valid := game.AnswerMatchesHint(hint, answer, false)
 	if valid {
 		t.Error()
 	}

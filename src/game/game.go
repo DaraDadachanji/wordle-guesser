@@ -39,7 +39,7 @@ func (word Word) IsPresent(char string) bool {
 	return false
 }
 
-func Check(guess string, answer string) Hint {
+func GetHint(guess string, answer string) Hint {
 	_guess := build_word(guess)
 	_answer := build_word(answer)
 	hint := make(Hint, 5)
@@ -62,7 +62,8 @@ func Check(guess string, answer string) Hint {
 	return hint
 }
 
-func Validate(hint Hint, answer string, ignoreCorrect bool) bool {
+//
+func AnswerMatchesHint(hint Hint, answer string, ignoreCorrect bool) bool {
 	_hint := make(Hint, len(hint))
 	copy(_hint, hint) //mutable copy to work with
 	_answer := build_word(answer)

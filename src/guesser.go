@@ -36,7 +36,7 @@ func (guesser Guesser) SuggestGuess(listAll bool) PairList {
 func narrowList(list *[]string, hint game.Hint, ignoreCorrect bool) *[]string {
 	narrowedAnswers := []string{}
 	for _, answer := range *list {
-		if game.Validate(hint, answer, ignoreCorrect) {
+		if game.AnswerMatchesHint(hint, answer, ignoreCorrect) {
 			narrowedAnswers = append(narrowedAnswers, answer)
 		}
 	}
