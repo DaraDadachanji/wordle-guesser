@@ -75,7 +75,7 @@ func getFlags() Flags {
 	start := flag.Int("start", 0, "starting point of for best guesses")
 	end := flag.Int("end", 0, "ending point for best guesses")
 	rough := flag.Bool("rough", false, "calculate alphabet and rough guess scores")
-	answersPerLine := flag.Int("perLine", 5, "number of answers to print per line")
+	answersPerLine := flag.Int("perline", 5, "number of answers to print per line")
 	flag.Parse()
 	flags := Flags{
 		Guess:          *guess,
