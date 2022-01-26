@@ -20,7 +20,7 @@ func TestScoring(t *testing.T) {
 func TestGuava(t *testing.T) {
 	answers := []string{"again", "guava"}
 	score := ScoreGuess("guava", &answers)
-	if score != 2 {
+	if score != 1 {
 		t.Error()
 	}
 }
