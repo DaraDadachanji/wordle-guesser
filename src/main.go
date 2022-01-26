@@ -13,7 +13,8 @@ func main() {
 	flags := getFlags()
 	if flags.Guess != "" {
 		score := ScoreGuess(flags.Guess, &game.AllAnswers)
-		fmt.Printf("%s: %d\n", flags.Guess, score)
+		averageOptions := float64(score) / float64(len(game.AllAnswers))
+		fmt.Printf("%s: %d (average remaining answers: %.2f)\n", flags.Guess, score, averageOptions)
 	} else if flags.Rough {
 		CalculateAlphabetValues()
 		CalculateRoughGuessValues()
