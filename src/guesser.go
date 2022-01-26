@@ -10,19 +10,19 @@ type Guesser struct {
 	Guesses *[]string
 }
 
+// filter answer and guess lists given a guess and pattern
 func (guesser *Guesser) GiveHint(guess string, pattern string) {
 	hint := buildHint(guess, pattern)
 	guesser.Answers = narrowList(guesser.Answers, hint, false)
 	guesser.Guesses = narrowList(guesser.Guesses, hint, true)
 }
 
-func (guesser Guesser) SuggestGuess(listAll bool) PairList {
+// rank remaining guesses based on remaining answers
+// return guesses tied for best score
+func (guesser Guesser) SuggestGuess() PairList {
 	allGuesses := RankGuesses(guesser.Guesses, guesser.Answers)
 	bestScore := allGuesses[0].Value
 	bestGuesses := PairList{}
-	if listAll {
-		return allGuesses
-	}
 	for _, guess := range allGuesses {
 		if guess.Value > bestScore {
 			return bestGuesses
@@ -31,6 +31,11 @@ func (guesser Guesser) SuggestGuess(listAll bool) PairList {
 		}
 	}
 	return allGuesses //all guesses are tied
+}
+
+func (guesser Guesser) AllGuesses() PairList {
+	allGuesses := RankGuesses(guesser.Guesses, guesser.Answers)
+	return allGuesses
 }
 
 func narrowList(list *[]string, hint game.Hint, ignoreCorrect bool) *[]string {

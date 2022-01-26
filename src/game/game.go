@@ -39,6 +39,7 @@ func (word Word) IsPresent(char string) bool {
 	return false
 }
 
+// constructs a hint from a guess and an answer
 func GetHint(guess string, answer string) Hint {
 	_guess := build_word(guess)
 	_answer := build_word(answer)
@@ -62,7 +63,8 @@ func GetHint(guess string, answer string) Hint {
 	return hint
 }
 
-//
+// checks whether an answer is valid given a known hint
+// optionally ignore correct (green) letters in the hint
 func AnswerMatchesHint(hint Hint, answer string, ignoreCorrect bool) bool {
 	_hint := make(Hint, len(hint))
 	copy(_hint, hint) //mutable copy to work with
@@ -104,6 +106,7 @@ func AnswerMatchesHint(hint Hint, answer string, ignoreCorrect bool) bool {
 	return true
 }
 
+//init function for Word class
 func build_word(str string) Word {
 	chars := strings.Split(str, "")
 	word := Word{}
@@ -117,7 +120,8 @@ func build_word(str string) Word {
 	return word
 }
 
-func (hint Hint) IsExactMatch() bool {
+// return true if the all letters in the hint are correct
+func (hint Hint) AllCorrect() bool {
 	for _, piece := range hint {
 		if piece.State != Correct {
 			return false
