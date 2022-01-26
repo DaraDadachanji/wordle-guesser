@@ -12,6 +12,7 @@ type Flags struct {
 	ShowAllGuesses bool
 	Start          int
 	End            int
+	AnswersPerLine int
 }
 
 func getFlags() Flags {
@@ -31,6 +32,7 @@ func getFlags() Flags {
 	start := flag.Int("start", 0, "starting point of for best guesses")
 	end := flag.Int("end", 0, "ending point for best guesses")
 	rough := flag.Bool("rough", false, "calculate alphabet and rough guess scores")
+	answersPerLine := flag.Int("perLine", 5, "number of answers to print per line")
 	flag.Parse()
 	flags := Flags{
 		Guess:          *guess,
@@ -39,6 +41,7 @@ func getFlags() Flags {
 		Start:          *start,
 		End:            *end,
 		ShowAllGuesses: *showAllGuesses,
+		AnswersPerLine: *answersPerLine,
 	}
 	return flags
 }

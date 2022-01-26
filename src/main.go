@@ -21,13 +21,13 @@ func main() {
 	} else if flags.Detailed {
 		CalculateBestGuesses(flags.Start, flags.End)
 	} else {
-		RunGuesserCLI(flags.ShowAllGuesses)
+		RunGuesserCLI(flags.ShowAllGuesses, flags.AnswersPerLine)
 	}
 
 }
 
 // start CLI application to suggest guesses
-func RunGuesserCLI(showAllGuesses bool) {
+func RunGuesserCLI(showAllGuesses bool, answersPerLine int) {
 	guesser := Guesser{Answers: &game.AllAnswers, Guesses: &game.AllGuesses}
 	fmt.Printf("Suggested first guess: %s\n", firstGuess)
 	for {
@@ -39,9 +39,13 @@ func RunGuesserCLI(showAllGuesses bool) {
 		} else {
 			guesser.GiveHint(guess, pattern)
 
-			for _, answer := range *guesser.Answers {
-				fmt.Println(answer)
+			for i, answer := range *guesser.Answers {
+				fmt.Printf("%s ", answer)
+				if i%answersPerLine == 0 {
+					fmt.Print("\n")
+				}
 			}
+			fmt.Print("\n")
 			fmt.Printf("Narrowed to %d answers\n", len(*guesser.Answers))
 			if len(*guesser.Answers) > 2 {
 				var suggestions PairList
