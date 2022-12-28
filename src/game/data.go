@@ -2,27 +2,30 @@ package game
 
 import (
 	"bufio"
-	"os"
+	"bytes"
+	_ "embed"
+	"io"
 )
 
 var (
 	AllGuesses []string
 	AllAnswers []string
+
+	//go:embed guesses.txt
+	guesses []byte
+
+	//go:embed answers.txt
+	answers []byte
 )
 
 func Initialize() {
-	AllGuesses, _ = readLines("guesses.txt")
-	AllAnswers, _ = readLines("answers.txt")
+	AllGuesses, _ = readLines(bytes.NewReader(guesses))
+	AllAnswers, _ = readLines(bytes.NewReader(answers))
 }
 
 // readLines reads a whole file into memory
 // and returns a slice of its lines.
-func readLines(path string) ([]string, error) {
-	file, err := os.Open(path)
-	if err != nil {
-		return nil, err
-	}
-	defer file.Close()
+func readLines(file io.Reader) ([]string, error) {
 
 	var lines []string
 	scanner := bufio.NewScanner(file)
